@@ -1,0 +1,141 @@
+//
+//  NewRouteViewController.swift
+//  Router
+//
+//  Created by Kim Rypstra on 13/12/18.
+//  Copyright © 2018 Kim Rypstra. All rights reserved.
+//
+
+import UIKit
+
+protocol WaypointSelectionDelegate {
+    func didSelectWaypoint(waypoint: Waypoint)
+    func didDeselectWaypoint(waypoint: Waypoint)
+    func returnFromSelection()
+}
+
+class NewRouteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WaypointSelectionDelegate {
+    
+    var selectedWaypoints: [Waypoint] = []
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var keep: UISwitch!
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "routeWaypointCell", for: indexPath)
+        cell.textLabel?.text = selectedWaypoints[indexPath.row].name
+        cell.detailTextLabel?.text = "\(selectedWaypoints[indexPath.row].lat), \(selectedWaypoints[indexPath.row].long)"
+        
+        return cell
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("Selected waypoints: \(selectedWaypoints.count)")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isEditing = true
+    }
+    
+    func didSelectWaypoint(waypoint: Waypoint) {
+        selectedWaypoints.append(waypoint)
+    }
+    
+    func didDeselectWaypoint(waypoint: Waypoint) {
+        if selectedWaypoints.contains(waypoint) {
+            selectedWaypoints.remove(at: selectedWaypoints.firstIndex(of: waypoint)!)
+        }
+    }
+    
+    func returnFromSelection() {
+        print("Returning from selection with \(selectedWaypoints.count) selected")
+        tableView.reloadData()
+    }
+    
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        if nameField.text != nil && selectedWaypoints.count > 0 {
+            let cdMan = CoreDataManager()
+            cdMan.newRouteWithWaypoints(waypoints: selectedWaypoints, name: nameField.text!, keep: keep.isOn)
+        } else {
+            print("Not complete")
+        }
+    }
+    
+    // MARK: - Table view data source
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return selectedWaypoints.count
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false 
+    }
+    
+    // Override to support editing the table view.
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }    
+    }
+    
+
+    
+    // Override to support rearranging the table view.
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        let moving = selectedWaypoints[fromIndexPath.row]
+        selectedWaypoints.remove(at: fromIndexPath.row)
+        selectedWaypoints.insert(moving, at: to.row)
+    }
+    
+
+    
+    // Override to support conditional rearranging of the table view.
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "selectWaypoints":
+            guard let IVC = segue.destination as? SelectWaypointsViewController else {
+                print("Error seguening")
+                return
+            }
+            IVC.delegate = self
+        case "previewRoute":
+            guard let IVC = segue.destination as? ViewRouteViewController else {
+                print("Error segueing")
+                return
+            }
+            IVC.waypoints = selectedWaypoints
+        default:
+            print("Unknown segue id")
+            return
+        }
+        
+        
+        if segue.identifier == "selectWaypoints" {
+            
+        }
+    }
+
+
+}
