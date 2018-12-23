@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import Mapbox
+import MapboxCoreNavigation
+import MapboxNavigation
+import MapboxDirections
 
 class DriveSelectViewController: UITableViewController {
 
-    var routes: [Route] = []
+    var routes: [CDRoute] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +63,10 @@ class DriveSelectViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "driveRoute":
-            let IVC = segue.destination as! NavigationViewController
-            IVC.route = routes[tableView.indexPathForSelectedRow!.row]
+            let IVC = segue.destination as! PreviewRouteViewController
+            let route = routes[tableView.indexPathForSelectedRow!.row]
+            IVC.route = route
+
         default:
             print("Unknown segue id")
             return

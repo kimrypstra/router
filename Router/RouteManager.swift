@@ -8,16 +8,17 @@
 
 import Foundation
 import MapKit
+import CoreData
 
 class RouteManager {
     
-    func getRoutes(waypoints: [Waypoint], completion: @escaping ([Int: MKRoute]) -> ()) {
+    func getRoutes(waypoints: [CDWaypoint], completion: @escaping ([Int: MKRoute]) -> ()) {
         getRoutesBetweenWaypoints(waypoints: waypoints) { (routes) in
             completion(routes)
         }
     }
     
-    private func getRoutesBetweenWaypoints(waypoints: [Waypoint], completion: @escaping ([Int: MKRoute]) -> ()) {
+    private func getRoutesBetweenWaypoints(waypoints: [CDWaypoint], completion: @escaping ([Int: MKRoute]) -> ()) {
         var routeDict: [Int : MKRoute] = [:]
         // Tuple might be better?
         // [destIndex : routeToDest]

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2137A3CC21C347BC00B0FE30 /* ViewRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2137A3CB21C347BC00B0FE30 /* ViewRouteViewController.swift */; };
+		214B84FE21CE495A00E39D1E /* CDRoute + Reorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214B84FD21CE495A00E39D1E /* CDRoute + Reorder.swift */; };
 		2193941C21BE95AF00AAD7D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193941B21BE95AF00AAD7D6 /* AppDelegate.swift */; };
 		2193941E21BE95AF00AAD7D6 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193941D21BE95AF00AAD7D6 /* MainMenuViewController.swift */; };
 		2193942121BE95AF00AAD7D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2193941F21BE95AF00AAD7D6 /* Main.storyboard */; };
@@ -22,35 +23,21 @@
 		219FEDBA21C2B0C5000F1E1D /* SelectWaypointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219FEDB921C2B0C5000F1E1D /* SelectWaypointsViewController.swift */; };
 		21A92E3021C4E5C700E951CC /* RouteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A92E2F21C4E5C700E951CC /* RouteManager.swift */; };
 		21A92E3221C4F09C00E951CC /* DriveSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A92E3121C4F09C00E951CC /* DriveSelectViewController.swift */; };
-		21A92E3421C4F34A00E951CC /* DriveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A92E3321C4F34A00E951CC /* DriveViewController.swift */; };
+		21A92E3421C4F34A00E951CC /* _DriveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A92E3321C4F34A00E951CC /* _DriveViewController.swift */; };
 		21A92E3621C516AE00E951CC /* Manouver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A92E3521C516AE00E951CC /* Manouver.swift */; };
 		21ADCD2921C1E5D6008225F4 /* InputMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADCD2821C1E5D6008225F4 /* InputMenuViewController.swift */; };
 		21ADCD2B21C1E610008225F4 /* InputAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADCD2A21C1E610008225F4 /* InputAddressViewController.swift */; };
 		21ADCD2D21C1E61D008225F4 /* InputMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADCD2C21C1E61D008225F4 /* InputMapViewController.swift */; };
 		21ADCD2F21C1EF37008225F4 /* ViewWaypointsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADCD2E21C1EF37008225F4 /* ViewWaypointsTableViewController.swift */; };
-		21D0286A21C9D4E0002F9EC3 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D0286921C9D4E0002F9EC3 /* Mapbox.framework */; };
-		21D0286B21C9D4E0002F9EC3 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 21D0286921C9D4E0002F9EC3 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		21D0286F21C9D60F002F9EC3 /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21D0286E21C9D60F002F9EC3 /* NavigationViewController.swift */; };
+		21BE5B2D21CE298E00A7534C /* PreviewRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BE5B2C21CE298E00A7534C /* PreviewRouteViewController.swift */; };
+		21BE5B2F21CE391000A7534C /* CDRoute + Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BE5B2E21CE391000A7534C /* CDRoute + Corners.swift */; };
 		21D028AE21C9E4ED002F9EC3 /* Pods_Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CAFD272A7F30CFA10D8297 /* Pods_Router.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		21D0286C21C9D4E0002F9EC3 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				21D0286B21C9D4E0002F9EC3 /* Mapbox.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		13CC248240BC475A803B2683 /* Pods-Router.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Router.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Router/Pods-Router.debug.xcconfig"; sourceTree = "<group>"; };
 		2137A3CB21C347BC00B0FE30 /* ViewRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouteViewController.swift; sourceTree = "<group>"; };
+		214B84FD21CE495A00E39D1E /* CDRoute + Reorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDRoute + Reorder.swift"; sourceTree = "<group>"; };
 		2193941821BE95AF00AAD7D6 /* Router.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Router.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2193941B21BE95AF00AAD7D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2193941D21BE95AF00AAD7D6 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
@@ -67,14 +54,14 @@
 		219FEDB921C2B0C5000F1E1D /* SelectWaypointsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectWaypointsViewController.swift; sourceTree = "<group>"; };
 		21A92E2F21C4E5C700E951CC /* RouteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteManager.swift; sourceTree = "<group>"; };
 		21A92E3121C4F09C00E951CC /* DriveSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveSelectViewController.swift; sourceTree = "<group>"; };
-		21A92E3321C4F34A00E951CC /* DriveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveViewController.swift; sourceTree = "<group>"; };
+		21A92E3321C4F34A00E951CC /* _DriveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _DriveViewController.swift; sourceTree = "<group>"; };
 		21A92E3521C516AE00E951CC /* Manouver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manouver.swift; sourceTree = "<group>"; };
 		21ADCD2821C1E5D6008225F4 /* InputMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMenuViewController.swift; sourceTree = "<group>"; };
 		21ADCD2A21C1E610008225F4 /* InputAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAddressViewController.swift; sourceTree = "<group>"; };
 		21ADCD2C21C1E61D008225F4 /* InputMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapViewController.swift; sourceTree = "<group>"; };
 		21ADCD2E21C1EF37008225F4 /* ViewWaypointsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWaypointsTableViewController.swift; sourceTree = "<group>"; };
-		21D0286921C9D4E0002F9EC3 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Mapbox.framework; sourceTree = "<group>"; };
-		21D0286E21C9D60F002F9EC3 /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		21BE5B2C21CE298E00A7534C /* PreviewRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewRouteViewController.swift; sourceTree = "<group>"; };
+		21BE5B2E21CE391000A7534C /* CDRoute + Corners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDRoute + Corners.swift"; sourceTree = "<group>"; };
 		78CAFD272A7F30CFA10D8297 /* Pods_Router.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Router.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A08BAD02551A3EA4D0C80E44 /* Pods-Router.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Router.release.xcconfig"; path = "Pods/Target Support Files/Pods-Router/Pods-Router.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,7 +71,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21D0286A21C9D4E0002F9EC3 /* Mapbox.framework in Frameworks */,
 				21D028AE21C9E4ED002F9EC3 /* Pods_Router.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,7 +81,6 @@
 		2193940F21BE95AF00AAD7D6 = {
 			isa = PBXGroup;
 			children = (
-				21D0286921C9D4E0002F9EC3 /* Mapbox.framework */,
 				2193941A21BE95AF00AAD7D6 /* Router */,
 				2193941921BE95AF00AAD7D6 /* Products */,
 				3E33DF8C524CFBCFF5515209 /* Pods */,
@@ -119,6 +104,8 @@
 				21A92E2F21C4E5C700E951CC /* RouteManager.swift */,
 				219FEDB421C29E9B000F1E1D /* Type.swift */,
 				21A92E3521C516AE00E951CC /* Manouver.swift */,
+				21BE5B2E21CE391000A7534C /* CDRoute + Corners.swift */,
+				214B84FD21CE495A00E39D1E /* CDRoute + Reorder.swift */,
 				219FEDB621C29F27000F1E1D /* ViewControllers */,
 				2193941F21BE95AF00AAD7D6 /* Main.storyboard */,
 				2193942521BE95B100AAD7D6 /* Assets.xcassets */,
@@ -133,8 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				21A92E3121C4F09C00E951CC /* DriveSelectViewController.swift */,
-				21D0286E21C9D60F002F9EC3 /* NavigationViewController.swift */,
-				21A92E3321C4F34A00E951CC /* DriveViewController.swift */,
+				21BE5B2C21CE298E00A7534C /* PreviewRouteViewController.swift */,
+				21A92E3321C4F34A00E951CC /* _DriveViewController.swift */,
 				2193943021BE98BE00AAD7D6 /* InputCoordinatesViewController.swift */,
 				21ADCD2A21C1E610008225F4 /* InputAddressViewController.swift */,
 				21ADCD2C21C1E61D008225F4 /* InputMapViewController.swift */,
@@ -177,8 +164,6 @@
 				2193941421BE95AF00AAD7D6 /* Sources */,
 				2193941521BE95AF00AAD7D6 /* Frameworks */,
 				2193941621BE95AF00AAD7D6 /* Resources */,
-				21D0286C21C9D4E0002F9EC3 /* Embed Frameworks */,
-				21D0286D21C9D4EB002F9EC3 /* ShellScript */,
 				72FA11BDF9FC42AABC6D7D29 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -202,6 +187,11 @@
 				TargetAttributes = {
 					2193941721BE95AF00AAD7D6 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -237,23 +227,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		21D0286D21C9D4EB002F9EC3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework/strip-frameworks.sh\"\n";
-		};
 		72FA11BDF9FC42AABC6D7D29 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -332,10 +305,10 @@
 				21A92E3621C516AE00E951CC /* Manouver.swift in Sources */,
 				2137A3CC21C347BC00B0FE30 /* ViewRouteViewController.swift in Sources */,
 				21A92E3221C4F09C00E951CC /* DriveSelectViewController.swift in Sources */,
-				21A92E3421C4F34A00E951CC /* DriveViewController.swift in Sources */,
+				21A92E3421C4F34A00E951CC /* _DriveViewController.swift in Sources */,
 				21ADCD2F21C1EF37008225F4 /* ViewWaypointsTableViewController.swift in Sources */,
+				21BE5B2F21CE391000A7534C /* CDRoute + Corners.swift in Sources */,
 				2193943321BE98CE00AAD7D6 /* RecordViewController.swift in Sources */,
-				21D0286F21C9D60F002F9EC3 /* NavigationViewController.swift in Sources */,
 				21ADCD2B21C1E610008225F4 /* InputAddressViewController.swift in Sources */,
 				2193943121BE98BE00AAD7D6 /* InputCoordinatesViewController.swift in Sources */,
 				21A92E3021C4E5C700E951CC /* RouteManager.swift in Sources */,
@@ -344,7 +317,9 @@
 				219FEDB821C2AE5D000F1E1D /* NewRouteViewController.swift in Sources */,
 				2193943721BEA8A800AAD7D6 /* CoreDataManager.swift in Sources */,
 				21ADCD2D21C1E61D008225F4 /* InputMapViewController.swift in Sources */,
+				214B84FE21CE495A00E39D1E /* CDRoute + Reorder.swift in Sources */,
 				219FEDB521C29E9B000F1E1D /* Type.swift in Sources */,
+				21BE5B2D21CE298E00A7534C /* PreviewRouteViewController.swift in Sources */,
 				219FEDBA21C2B0C5000F1E1D /* SelectWaypointsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,7 +473,17 @@
 				DEVELOPMENT_TEAM = YBCCTWH2WW;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
-					"\"${{PODS_CONFIGURATION_BUILD_DIR}/MapboxCoreNavigation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxCoreNavigation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxDirections.swift\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxMobileEvents\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxNavigation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxSpeech\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Polyline\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Solar\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Turf\"",
+					"\"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic\"",
+					"\"${PODS_ROOT}/MapboxNavigationNative\"",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Router/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -521,7 +506,17 @@
 				DEVELOPMENT_TEAM = YBCCTWH2WW;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)/**",
-					"$(PROJECT_DIR)/**",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxCoreNavigation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxDirections.swift\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxMobileEvents\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxNavigation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MapboxSpeech\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Polyline\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Solar\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Turf\"",
+					"\"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic\"",
+					"\"${PODS_ROOT}/MapboxNavigationNative\"",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Router/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

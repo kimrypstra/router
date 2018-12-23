@@ -10,7 +10,7 @@ import UIKit
 
 class ViewWaypointsTableViewController: UITableViewController {
 
-    var waypoints: [Waypoint] = []
+    var waypoints: [CDWaypoint] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

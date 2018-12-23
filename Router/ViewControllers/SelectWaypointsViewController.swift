@@ -11,9 +11,9 @@ import UIKit
 class SelectWaypointsViewController: UITableViewController {
 
     var delegate: WaypointSelectionDelegate!
-    var spbs: [Waypoint]!
-    var premeses: [Waypoint]!
-    var waypoints: [Waypoint]!
+    var spbs: [CDWaypoint]!
+    var premeses: [CDWaypoint]!
+    var waypoints: [CDWaypoint]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +70,7 @@ class SelectWaypointsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "selectWaypointCell", for: indexPath)
 
-        var waypoint: Waypoint!
+        var waypoint: CDWaypoint!
         
         switch indexPath.section {
         case 0: waypoint = spbs[indexPath.row]

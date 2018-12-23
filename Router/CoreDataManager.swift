@@ -11,11 +11,11 @@ import CoreData
 import UIKit
 
 class CoreDataManager {
-    func loadRoute(name: String) -> Route? {
+    func loadRoute(name: String) -> CDRoute? {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
         
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Route")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDRoute")
         request.returnsObjectsAsFaults = false
         
         do {
@@ -24,7 +24,7 @@ class CoreDataManager {
                 for data in result as! [NSManagedObject] {
                     print(data)
                     if data.value(forKey: "name") as! String == name {
-                        return data as! Route
+                        return data as! CDRoute
                     } else {
                         return nil
                     }
@@ -42,16 +42,16 @@ class CoreDataManager {
         return nil
     }
     
-    func loadAllRoutes() -> [Route]? {
+    func loadAllRoutes() -> [CDRoute]? {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
         
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Route")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDRoute")
         request.returnsObjectsAsFaults = false
         
         do {
             let result = try context.fetch(request)
-            return result as! [Route]
+            return result as! [CDRoute]
             
         } catch {
             print("Load failed")
@@ -61,12 +61,12 @@ class CoreDataManager {
         return nil
     }
     
-    private func createNewRoute(name: String) -> Route? {
+    private func createNewRoute(name: String) -> CDRoute? {
         
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
         
-        let entity = NSEntityDescription.entity(forEntityName: "Route", in: context)
+        let entity = NSEntityDescription.entity(forEntityName: "CDRoute", in: context)
         let newRoute = NSManagedObject(entity: entity!, insertInto: context)
         newRoute.setValue(name, forKey: "name")
         newRoute.setValue(Date(), forKey: "date")
@@ -80,12 +80,12 @@ class CoreDataManager {
         }
     }
     
-    func newRouteWithWaypoints(waypoints: [Waypoint], name: String, keep: Bool) {
+    func newRouteWithWaypoints(waypoints: [CDWaypoint], name: String, keep: Bool) {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
         
-        let routeEntity = NSEntityDescription.entity(forEntityName: "Route", in: context)
-        let newRoute: Route = NSManagedObject(entity: routeEntity!, insertInto: context) as! Route
+        let routeEntity = NSEntityDescription.entity(forEntityName: "CDRoute", in: context)
+        let newRoute: CDRoute = NSManagedObject(entity: routeEntity!, insertInto: context) as! CDRoute
         newRoute.setValue(name, forKey: "name")
         newRoute.setValue(keep, forKey: "keep")
         //newRoute.addToWaypoints(NSSet(array: waypoints))
@@ -101,8 +101,8 @@ class CoreDataManager {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
         
-        let waypointEntity = NSEntityDescription.entity(forEntityName: "Waypoint", in: context)
-        let newWaypoint: Waypoint = NSManagedObject(entity: waypointEntity!, insertInto: context) as! Waypoint
+        let waypointEntity = NSEntityDescription.entity(forEntityName: "CDWaypoint", in: context)
+        let newWaypoint: CDWaypoint = NSManagedObject(entity: waypointEntity!, insertInto: context) as! CDWaypoint
         newWaypoint.setValue(lat, forKey: "lat")
         newWaypoint.setValue(long, forKey: "long")
         newWaypoint.setValue(name, forKey: "name")
@@ -116,16 +116,16 @@ class CoreDataManager {
         }
     }
     
-    func loadAllWaypoints() -> [Waypoint] {
+    func loadAllWaypoints() -> [CDWaypoint] {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
         
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Waypoint")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDWaypoint")
         request.returnsObjectsAsFaults = false
         
         do {
             let result = try context.fetch(request)
-            return result as! [Waypoint]
+            return result as! [CDWaypoint]
             
         } catch {
             print("Load failed")
@@ -136,7 +136,7 @@ class CoreDataManager {
     func addWaypointToRoute(name: String, lat: String, long: String, major: Bool, position: Int16) {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
-        var route: Route? = loadRoute(name: name)
+        var route: CDRoute? = loadRoute(name: name)
 
         if route == nil {
             // Create a new route
@@ -144,14 +144,14 @@ class CoreDataManager {
             route = newRoute
         }
 
-        let entity = NSEntityDescription.entity(forEntityName: "Waypoint", in: context)
+        let entity = NSEntityDescription.entity(forEntityName: "CDWaypoint", in: context)
         let newWaypoint = NSManagedObject(entity: entity!, insertInto: context)
         newWaypoint.setValue(lat, forKey: "lat")
         newWaypoint.setValue(long, forKey: "long")
         newWaypoint.setValue(major, forKey: "major")
         newWaypoint.setValue(position, forKey: "position")
 
-        route!.addToWaypoints(newWaypoint as! Waypoint)
+        route!.addToWaypoints(newWaypoint as! CDWaypoint)
 
         do {
             try context.save()

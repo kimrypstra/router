@@ -9,14 +9,14 @@
 import UIKit
 
 protocol WaypointSelectionDelegate {
-    func didSelectWaypoint(waypoint: Waypoint)
-    func didDeselectWaypoint(waypoint: Waypoint)
+    func didSelectWaypoint(waypoint: CDWaypoint)
+    func didDeselectWaypoint(waypoint: CDWaypoint)
     func returnFromSelection()
 }
 
 class NewRouteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WaypointSelectionDelegate {
     
-    var selectedWaypoints: [Waypoint] = []
+    var selectedWaypoints: [CDWaypoint] = []
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var keep: UISwitch!
@@ -40,11 +40,11 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.isEditing = true
     }
     
-    func didSelectWaypoint(waypoint: Waypoint) {
+    func didSelectWaypoint(waypoint: CDWaypoint) {
         selectedWaypoints.append(waypoint)
     }
     
-    func didDeselectWaypoint(waypoint: Waypoint) {
+    func didDeselectWaypoint(waypoint: CDWaypoint) {
         if selectedWaypoints.contains(waypoint) {
             selectedWaypoints.remove(at: selectedWaypoints.firstIndex(of: waypoint)!)
         }

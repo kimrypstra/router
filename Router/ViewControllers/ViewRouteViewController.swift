@@ -13,7 +13,7 @@ import CoreData
 
 let baseCoordinates = CLLocationCoordinate2D(latitude: -31.8568, longitude: 115.9128)
 
-extension Waypoint {
+extension CDWaypoint {
     func coordinate() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: self.lat, longitude: self.long)
     }
@@ -22,7 +22,7 @@ extension Waypoint {
 class ViewRouteViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    var waypoints: [Waypoint]!
+    var waypoints: [CDWaypoint]!
     var routeMan = RouteManager()
     
     override func viewDidLoad() {
@@ -34,7 +34,7 @@ class ViewRouteViewController: UIViewController, MKMapViewDelegate {
         getRoutes(waypoints: waypoints)
     }
     
-    func getRoutes(waypoints: [Waypoint]) {
+    func getRoutes(waypoints: [CDWaypoint]) {
         routeMan.getRoutes(waypoints: waypoints) { (routes) in
             for index in routes.keys.sorted() {
                 let route = routes[index]
@@ -54,7 +54,7 @@ class ViewRouteViewController: UIViewController, MKMapViewDelegate {
         return renderer
     }
     
-    func insertWaypoint(first: Waypoint, second: Waypoint) {
+    func insertWaypoint(first: CDWaypoint, second: CDWaypoint) {
         // Insert a waypoint (no majors, just the plain ol' minor waypoints) between two waypoints
         // Get two new routes, first > new and new > second
         // Add them into the main route
