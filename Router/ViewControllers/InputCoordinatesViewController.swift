@@ -20,12 +20,15 @@ class InputCoordinatesViewController: UIViewController, MKMapViewDelegate, UITex
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var nameField: UITextField!
     
+
     var locMan = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         locMan.desiredAccuracy = kCLLocationAccuracyBest
         locMan.startUpdatingLocation()
+        
+        
         // Do any additional setup after loading the view.
     }
     
@@ -76,7 +79,7 @@ class InputCoordinatesViewController: UIViewController, MKMapViewDelegate, UITex
         }
         
         let cdMan = CoreDataManager()
-        cdMan.addWaypoint(lat: latitude, long: longitude, name: nameField.text!, type: Type(rawValue: spbSeg.selectedSegmentIndex)!, keep: keepSwitch.isOn)
+        //cdMan.addWaypoint(lat: latitude, long: longitude, name: nameField.text!, type: Type(rawValue: spbSeg.selectedSegmentIndex)!, keep: keepSwitch.isOn)
     }
     
     

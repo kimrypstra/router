@@ -14,16 +14,24 @@ class SelectWaypointsViewController: UITableViewController {
     var spbs: [CDWaypoint]!
     var premeses: [CDWaypoint]!
     var waypoints: [CDWaypoint]!
+    @IBOutlet weak var seg: UISegmentedControl!
+    
+    var selectedWaypoints: [CDWaypoint]? {
+        get {
+            switch seg.selectedSegmentIndex {
+            case 0: return spbs
+            case 1: return premeses
+            case 2: return waypoints
+            default: return nil
+            }
+        }
+    }
+    var indexTitles = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let cdMan = CoreDataManager()
-        let result = cdMan.loadAllWaypoints()
-        spbs = result.filter({$0.type == 0}) + result.filter({$0.type == 1})
-        premeses = result.filter({$0.type == 2})
-        waypoints = result.filter({$0.type == 3})
         
-        
+        loadWaypoints()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -31,8 +39,16 @@ class SelectWaypointsViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    @IBAction func segChanged(_ sender: Any) {
+        tableView.reloadData()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         delegate.returnFromSelection()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        loadWaypoints()
     }
     
     @IBAction func didPressDone(_ sender: UIBarButtonItem) {
@@ -40,68 +56,82 @@ class SelectWaypointsViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    func loadWaypoints() {
+        let cdMan = CoreDataManager()
+        let result = cdMan.loadAllWaypoints()
+        spbs = result.filter({$0.type == 0}) + result.filter({$0.type == 1})
+        premeses = result.filter({$0.type == 2})
+        waypoints = result.filter({$0.type == 3})
+        
+        spbs.sort{$0.name! < $1.name!}
+        premeses.sort{$0.name! < $1.name!}
+        waypoints.sort{$0.name! < $1.name!}
+        tableView.reloadData()
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 3
+        return indexTitles.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        switch section {
-        case 0: return spbs.count
-        case 1: return premeses.count
-        case 2: return waypoints.count
-        default: return 0
+        guard selectedWaypoints != nil else {return 0}
+        
+        let firstLetter = Character(indexTitles[section].lowercased())
+        if let filtered = selectedWaypoints?.filter({($0.name?.lowercased().first) == firstLetter}) {
+            return filtered.count
+        } else {
+            return 0
         }
+        
+        
         
     }
     
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return indexTitles
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return index
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0: return "SPB"
-        case 1: return "Premeses"
-        case 2: return "Waypoints"
-        default: return "Error"
-        }
+        return indexTitles[section]
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "selectWaypointCell", for: indexPath)
-
-        var waypoint: CDWaypoint!
         
-        switch indexPath.section {
-        case 0: waypoint = spbs[indexPath.row]
-        case 1: waypoint = premeses[indexPath.row]
-        case 2: waypoint = waypoints[indexPath.row]
-        default: waypoint = nil
-        }
+        let firstLetter = Character(indexTitles[indexPath.section].lowercased())
         
-        cell.textLabel?.text = waypoint.name
-        cell.detailTextLabel?.text = "\(waypoint.lat), \(waypoint.long)"
-
+        let filtered = selectedWaypoints!.filter({($0.name?.lowercased().first) == firstLetter})
+        let waypointForCell = filtered[indexPath.row]
+        
+        
+        cell.textLabel?.text = waypointForCell.name
+        cell.detailTextLabel?.text = "\(waypointForCell.lat), \(waypointForCell.long)"
+        
         return cell
     }
     
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0: delegate.didSelectWaypoint(waypoint: spbs[indexPath.row])
-        case 1: delegate.didSelectWaypoint(waypoint:premeses[indexPath.row])
-        case 2: delegate.didSelectWaypoint(waypoint:waypoints[indexPath.row])
-        default: print("Error selecting cell"); return
-        }
+        var waypoint: CDWaypoint!
+        let firstLetter = Character(indexTitles[indexPath.section].lowercased())
+        let filtered = selectedWaypoints!.filter({($0.name?.lowercased().first) == firstLetter})
+        waypoint = filtered[indexPath.row]
+        delegate.didSelectWaypoint(waypoint: waypoint)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0: delegate.didDeselectWaypoint(waypoint: spbs[indexPath.row])
-        case 1: delegate.didDeselectWaypoint(waypoint:  premeses[indexPath.row])
-        case 2: delegate.didDeselectWaypoint(waypoint:  waypoints[indexPath.row])
-        default: print("Error deselecting cell"); return
-        }
+        var waypoint: CDWaypoint!
+        let firstLetter = Character(indexTitles[indexPath.section].lowercased())
+        let filtered = selectedWaypoints!.filter({($0.name?.lowercased().first) == firstLetter})
+        waypoint = filtered[indexPath.row]
+        delegate.didDeselectWaypoint(waypoint: waypoint)
     }
     
     

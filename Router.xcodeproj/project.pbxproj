@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		212B5EB821DC4EAA0024BC7D /* ArrivalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212B5EB721DC4EAA0024BC7D /* ArrivalViewController.swift */; };
 		2137A3CC21C347BC00B0FE30 /* ViewRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2137A3CB21C347BC00B0FE30 /* ViewRouteViewController.swift */; };
 		214B84FE21CE495A00E39D1E /* CDRoute + Reorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214B84FD21CE495A00E39D1E /* CDRoute + Reorder.swift */; };
+		2177B46621E6DC4300C2A4A3 /* SPBs.csv in Resources */ = {isa = PBXBuildFile; fileRef = 2177B46521E6DC4300C2A4A3 /* SPBs.csv */; };
+		2177B46821E6DDFD00C2A4A3 /* ViewRoutesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2177B46721E6DDFD00C2A4A3 /* ViewRoutesViewController.swift */; };
+		2177B46A21E6DFEF00C2A4A3 /* UIButton + Center Vertically.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2177B46921E6DFEF00C2A4A3 /* UIButton + Center Vertically.swift */; };
+		2177B46C21EEB3FD00C2A4A3 /* KimButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2177B46B21EEB3FD00C2A4A3 /* KimButton.swift */; };
 		2193941C21BE95AF00AAD7D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193941B21BE95AF00AAD7D6 /* AppDelegate.swift */; };
 		2193941E21BE95AF00AAD7D6 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2193941D21BE95AF00AAD7D6 /* MainMenuViewController.swift */; };
 		2193942121BE95AF00AAD7D6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2193941F21BE95AF00AAD7D6 /* Main.storyboard */; };
@@ -29,6 +34,7 @@
 		21ADCD2B21C1E610008225F4 /* InputAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADCD2A21C1E610008225F4 /* InputAddressViewController.swift */; };
 		21ADCD2D21C1E61D008225F4 /* InputMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADCD2C21C1E61D008225F4 /* InputMapViewController.swift */; };
 		21ADCD2F21C1EF37008225F4 /* ViewWaypointsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ADCD2E21C1EF37008225F4 /* ViewWaypointsTableViewController.swift */; };
+		21B8B96221E06C630008C861 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B8B96121E06C630008C861 /* Parser.swift */; };
 		21BE5B2D21CE298E00A7534C /* PreviewRouteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BE5B2C21CE298E00A7534C /* PreviewRouteViewController.swift */; };
 		21BE5B2F21CE391000A7534C /* CDRoute + Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BE5B2E21CE391000A7534C /* CDRoute + Corners.swift */; };
 		21D028AE21C9E4ED002F9EC3 /* Pods_Router.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CAFD272A7F30CFA10D8297 /* Pods_Router.framework */; };
@@ -36,8 +42,13 @@
 
 /* Begin PBXFileReference section */
 		13CC248240BC475A803B2683 /* Pods-Router.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Router.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Router/Pods-Router.debug.xcconfig"; sourceTree = "<group>"; };
+		212B5EB721DC4EAA0024BC7D /* ArrivalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrivalViewController.swift; sourceTree = "<group>"; };
 		2137A3CB21C347BC00B0FE30 /* ViewRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouteViewController.swift; sourceTree = "<group>"; };
 		214B84FD21CE495A00E39D1E /* CDRoute + Reorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDRoute + Reorder.swift"; sourceTree = "<group>"; };
+		2177B46521E6DC4300C2A4A3 /* SPBs.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SPBs.csv; sourceTree = "<group>"; };
+		2177B46721E6DDFD00C2A4A3 /* ViewRoutesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRoutesViewController.swift; sourceTree = "<group>"; };
+		2177B46921E6DFEF00C2A4A3 /* UIButton + Center Vertically.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton + Center Vertically.swift"; sourceTree = "<group>"; };
+		2177B46B21EEB3FD00C2A4A3 /* KimButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KimButton.swift; sourceTree = "<group>"; };
 		2193941821BE95AF00AAD7D6 /* Router.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Router.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2193941B21BE95AF00AAD7D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2193941D21BE95AF00AAD7D6 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +71,7 @@
 		21ADCD2A21C1E610008225F4 /* InputAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAddressViewController.swift; sourceTree = "<group>"; };
 		21ADCD2C21C1E61D008225F4 /* InputMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapViewController.swift; sourceTree = "<group>"; };
 		21ADCD2E21C1EF37008225F4 /* ViewWaypointsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWaypointsTableViewController.swift; sourceTree = "<group>"; };
+		21B8B96121E06C630008C861 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		21BE5B2C21CE298E00A7534C /* PreviewRouteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewRouteViewController.swift; sourceTree = "<group>"; };
 		21BE5B2E21CE391000A7534C /* CDRoute + Corners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDRoute + Corners.swift"; sourceTree = "<group>"; };
 		78CAFD272A7F30CFA10D8297 /* Pods_Router.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Router.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,17 +113,21 @@
 			children = (
 				2193941B21BE95AF00AAD7D6 /* AppDelegate.swift */,
 				2193943621BEA8A800AAD7D6 /* CoreDataManager.swift */,
+				21B8B96121E06C630008C861 /* Parser.swift */,
 				21A92E2F21C4E5C700E951CC /* RouteManager.swift */,
 				219FEDB421C29E9B000F1E1D /* Type.swift */,
 				21A92E3521C516AE00E951CC /* Manouver.swift */,
 				21BE5B2E21CE391000A7534C /* CDRoute + Corners.swift */,
 				214B84FD21CE495A00E39D1E /* CDRoute + Reorder.swift */,
+				2177B46921E6DFEF00C2A4A3 /* UIButton + Center Vertically.swift */,
+				2177B46B21EEB3FD00C2A4A3 /* KimButton.swift */,
 				219FEDB621C29F27000F1E1D /* ViewControllers */,
 				2193941F21BE95AF00AAD7D6 /* Main.storyboard */,
 				2193942521BE95B100AAD7D6 /* Assets.xcassets */,
 				2193942721BE95B100AAD7D6 /* LaunchScreen.storyboard */,
 				2193942A21BE95B100AAD7D6 /* Info.plist */,
 				2193942221BE95B000AAD7D6 /* Router.xcdatamodeld */,
+				2177B46521E6DC4300C2A4A3 /* SPBs.csv */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -121,6 +137,7 @@
 			children = (
 				21A92E3121C4F09C00E951CC /* DriveSelectViewController.swift */,
 				21BE5B2C21CE298E00A7534C /* PreviewRouteViewController.swift */,
+				212B5EB721DC4EAA0024BC7D /* ArrivalViewController.swift */,
 				21A92E3321C4F34A00E951CC /* _DriveViewController.swift */,
 				2193943021BE98BE00AAD7D6 /* InputCoordinatesViewController.swift */,
 				21ADCD2A21C1E610008225F4 /* InputAddressViewController.swift */,
@@ -131,6 +148,7 @@
 				2193943221BE98CE00AAD7D6 /* RecordViewController.swift */,
 				21ADCD2E21C1EF37008225F4 /* ViewWaypointsTableViewController.swift */,
 				219FEDB921C2B0C5000F1E1D /* SelectWaypointsViewController.swift */,
+				2177B46721E6DDFD00C2A4A3 /* ViewRoutesViewController.swift */,
 				2137A3CB21C347BC00B0FE30 /* ViewRouteViewController.swift */,
 			);
 			path = ViewControllers;
@@ -220,6 +238,7 @@
 			files = (
 				2193942921BE95B100AAD7D6 /* LaunchScreen.storyboard in Resources */,
 				2193942621BE95B100AAD7D6 /* Assets.xcassets in Resources */,
+				2177B46621E6DC4300C2A4A3 /* SPBs.csv in Resources */,
 				2193942121BE95AF00AAD7D6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,9 +321,11 @@
 			files = (
 				2193941E21BE95AF00AAD7D6 /* MainMenuViewController.swift in Sources */,
 				2193942421BE95B000AAD7D6 /* Router.xcdatamodeld in Sources */,
+				2177B46A21E6DFEF00C2A4A3 /* UIButton + Center Vertically.swift in Sources */,
 				21A92E3621C516AE00E951CC /* Manouver.swift in Sources */,
 				2137A3CC21C347BC00B0FE30 /* ViewRouteViewController.swift in Sources */,
 				21A92E3221C4F09C00E951CC /* DriveSelectViewController.swift in Sources */,
+				2177B46821E6DDFD00C2A4A3 /* ViewRoutesViewController.swift in Sources */,
 				21A92E3421C4F34A00E951CC /* _DriveViewController.swift in Sources */,
 				21ADCD2F21C1EF37008225F4 /* ViewWaypointsTableViewController.swift in Sources */,
 				21BE5B2F21CE391000A7534C /* CDRoute + Corners.swift in Sources */,
@@ -316,10 +337,13 @@
 				2193941C21BE95AF00AAD7D6 /* AppDelegate.swift in Sources */,
 				219FEDB821C2AE5D000F1E1D /* NewRouteViewController.swift in Sources */,
 				2193943721BEA8A800AAD7D6 /* CoreDataManager.swift in Sources */,
+				212B5EB821DC4EAA0024BC7D /* ArrivalViewController.swift in Sources */,
 				21ADCD2D21C1E61D008225F4 /* InputMapViewController.swift in Sources */,
 				214B84FE21CE495A00E39D1E /* CDRoute + Reorder.swift in Sources */,
+				2177B46C21EEB3FD00C2A4A3 /* KimButton.swift in Sources */,
 				219FEDB521C29E9B000F1E1D /* Type.swift in Sources */,
 				21BE5B2D21CE298E00A7534C /* PreviewRouteViewController.swift in Sources */,
+				21B8B96221E06C630008C861 /* Parser.swift in Sources */,
 				219FEDBA21C2B0C5000F1E1D /* SelectWaypointsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

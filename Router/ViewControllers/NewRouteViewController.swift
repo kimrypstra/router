@@ -65,7 +65,10 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // MARK: - Table view data source
-
+    @IBAction func didTapDoneTextField(_ sender: Any) {
+        nameField.resignFirstResponder()
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1

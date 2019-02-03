@@ -13,4 +13,5 @@ enum Type: Int {
     case Pedestal = 1
     case Premesis = 2
     case Waypoint = 3
+    case Express = 4
 }

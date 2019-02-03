@@ -31,9 +31,16 @@ class MainMenuViewController: UIViewController, CLLocationManagerDelegate {
     
     var cdMan = CoreDataManager()
     
+    @IBOutlet weak var drivePreMadeButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         locMan = CLLocationManager()
+        
+//        let parser = Parser()
+//        let csv = parser.readCSV(name: "SPBs")
+//        parser.modifyBasedOnID(csv: csv!)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,6 +60,14 @@ class MainMenuViewController: UIViewController, CLLocationManagerDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
+        case "temporaryRoute":
+            let IVC = segue.destination as! InputAddressViewController
+            IVC.addingForTemporaryRoute = true
+            IVC.editingMode = .Add
+        case "inputWaypoint":
+            let IVC = segue.destination as! InputAddressViewController
+            IVC.addingForTemporaryRoute = false
+            IVC.editingMode = .Add
         case "recordRoute":
             print("Going to record route")
         case "inputRoute":

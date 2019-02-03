@@ -62,7 +62,7 @@ class InputMapViewController: UIViewController, MKMapViewDelegate, UIGestureReco
     @IBAction func addButton(_ sender: UIButton) {
         let cdMan = CoreDataManager()
         let coord = mapView.annotations.first!.coordinate
-        cdMan.addWaypoint(lat: coord.latitude, long: coord.longitude, name: nameField.text!, type: Type(rawValue: typeSeg.selectedSegmentIndex)!, keep: keepSwitch.isOn)
+        //cdMan.addWaypoint(lat: coord.latitude, long: coord.longitude, name: nameField.text!, type: Type(rawValue: typeSeg.selectedSegmentIndex)!, keep: keepSwitch.isOn)
     }
     
     @objc func didLongPressOnMap(_ sender: UILongPressGestureRecognizer) {
