@@ -11,12 +11,14 @@ import UIKit
 class ViewRoutesViewController: UITableViewController {
 
     var routes: [CDRoute] = []
+    var cdMan: CoreDataManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let cdMan = CoreDataManager()
-        if let load = cdMan.loadAllRoutes() {
-            routes = load
+        cdMan = CoreDataManager()
+        if let load = cdMan?.loadAllRoutes() {
+            routes = load.sorted {$0.name! < $1.name!}
+            
         }
         
         tableView.reloadData()
@@ -43,7 +45,12 @@ class ViewRoutesViewController: UITableViewController {
         let route = routes[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "viewCell", for: indexPath)
         cell.textLabel?.text = route.name
-        cell.detailTextLabel?.text = "\(route.date)"
+        if let unformattedDate = route.date {
+            let formattedDate = formatDate(unformattedDate: unformattedDate)
+            cell.detailTextLabel?.text = "Current at: \(formattedDate!)"
+        } else {
+            cell.detailTextLabel?.text = "Unknown edit date"
+        }
         return cell
      }
  
@@ -56,17 +63,23 @@ class ViewRoutesViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            if cdMan?.deleteRoute(name: routes[indexPath.row].name!) == true {
+                routes.remove(at: indexPath.row)
+               tableView.deleteRows(at: [indexPath], with: .fade)
+            } else {
+                print("Error: Delete returned false")
+            }
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -83,14 +96,19 @@ class ViewRoutesViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "editRoute" {
+            let IVC = segue.destination as! NewRouteViewController
+            IVC.mode = .Edit
+            IVC.editingRoute = routes[tableView.indexPathForSelectedRow!.row]
+        }
     }
-    */
+ 
 
 }

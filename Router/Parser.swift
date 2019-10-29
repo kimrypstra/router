@@ -11,12 +11,12 @@ import Foundation
 extension String {
     var rtrim: String {
         var s = self.characters
-        while s.last == " " { s = s.dropLast() }
+        while s.last == " " { s = String(s.dropLast()) }
         return String(s)
     }
     var ltrim: String {
         var s = self.characters
-        while s.first == " " { s = s.dropFirst() }
+        while s.first == " " { s = String(s.dropFirst()) }
         return String(s)
     }
     var trim:String {

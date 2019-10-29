@@ -32,7 +32,7 @@ extension Waypoint {
 
 class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessionDelegate, NavigationViewControllerDelegate, ArrivalViewControllerDelegate {
 
-    @IBOutlet weak var mapView: MGLMapView!
+
     let locMan = CLLocationManager()
     var route: CDRoute!
     var directionsRoutes: [Route]?
@@ -43,7 +43,14 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
     var navigationVC: NavigationViewController!
     var arrival: ArrivalViewController?
     var arrivalMode: ArrivalMode = .Normal
+    var shouldAllowDrive = true
+    
     @IBOutlet weak var simSwitch: UISwitch!
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var driveButton: UIBarButtonItem!
+    @IBOutlet weak var mapView: MGLMapView!
+    
+    //MARK: View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,12 +58,21 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .none
         locMan.startUpdatingLocation()
+        
+        
         // Do any additional setup after loading the view.
     }
     
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        print("**Challenge: \(challenge)")
+    override func viewWillAppear(_ animated: Bool) {
+        if shouldAllowDrive == false {
+            driveButton.isEnabled = false
+        }
+        spinner.isHidden = true
     }
+    
+//    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+//        print("**Challenge: \(challenge)")
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         let bounds = MGLCoordinateBounds(sw: route.southWest(), ne: route.northEast())
@@ -70,41 +86,36 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
         }
         
         mapView.setCamera(routeCam, animated: true)
-        generatePins(waypoints: route.waypoints?.array as! [CDWaypoint])
-        
         generateRoute(waypoints: route.waypoints?.array as! [CDWaypoint]) { (routes) in
             //
             guard routes.count > 0 else {
                 print("**No routes?")
                 return
             }
-            
             //var routesArray: [Route?] = Array(repeating: nil, count: routes.count)
-            
             for (index, subroute) in routes.enumerated() {
                 print("**Subroute \(index)")
                 for mbwaypoint in subroute.routeOptions.waypoints {
                     print(mbwaypoint.name!)
                 }
             }
-            
             self.directionsRoutes = routes
-
             //self.directionsRoute = route
-            
             self.drawRoutes(routes: routes)
-            
         }
-    }
+        generatePins(waypoints: route.waypoints?.array as! [CDWaypoint])
 
+    }
     
     @IBAction func tappedDriveButton(_ sender: UIBarButtonItem) {
         print("**Tapped drive button")
         guard directionsRoutes != nil else {return}
+        
         if orderedRoute.count == 0 {
             print("**Starting route in default order")
             // If you have selected none, just drive the route in that order
-            navigationVC = NavigationViewController(for: directionsRoutes![0])
+            //navigationVC = NavigationViewController(for: directionsRoutes![0])
+            navigationVC = NavigationViewController(for: directionsRoutes![0], styles: [KimStyle()], navigationService: nil, voiceController: nil)
             if simSwitch.isOn {
                 navigationVC.navigationService.simulationMode = .always
                 navigationVC.navigationService.simulationSpeedMultiplier = 3
@@ -113,22 +124,27 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
             let but = FloatingButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
             but.cornerRadius = 25
             //let button = UIButton(type: .custom)
-            let image = UIImage(named: "next")!
+            let image = UIImage(named: "next")?.withRenderingMode(.alwaysTemplate)
             but.setImage(image, for: .normal)
             //shadowOpacity = 0.1; shadowRadius = 4; shadowOffset = CGSize (0 0)
             but.layer.shadowOpacity = 0.1
             but.layer.shadowRadius = 4
             but.layer.shadowOffset = CGSize(width: 0, height: 0)
             but.addTarget(self, action: #selector(didTapSkipButton), for: .touchUpInside)
-            //button.tintColor = .blue
-            //button.frame = CGRect(origin: navigationVC.view.center, size: CGSize(width: 100, height: 50))
-            //navigationVC.view.addSubview(button)
-            
-            //button.center = navigationVC.view.center
-            let stack = navigationVC.view.subviews[0].subviews[2] as! UIStackView
+            but.tintColor = .white
+            but.frame.size = CGSize(width: 50, height: 50)
+//            for view in navigationVC.view.subviews[0].subviews[0].subviews[0] {
+//                print("\(view)")
+//            }
+            let stack = navigationVC.view.subviews[0].subviews[1] as! UIStackView
             stack.addArrangedSubview(but)
+            let map = navigationVC.view.subviews[0].subviews[0].subviews[0]
+            
+            for con in map.constraints {
+                print(con)
+            }
             navigationVC.delegate = self
-            //present(navigationVC, animated: true, completion: nil)
+            
             navigationController?.present(navigationVC, animated: true, completion: nil)
         } else if orderedRoute.count == route.waypoints?.count {
             print("**Starting route in altered order")
@@ -142,15 +158,22 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
             let but = FloatingButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
             but.cornerRadius = 25
             //let button = UIButton(type: .custom)
-            let image = UIImage(named: "next")!
+            let image = UIImage(named: "next")?.withRenderingMode(.alwaysTemplate)
             but.setImage(image, for: .normal)
             //shadowOpacity = 0.1; shadowRadius = 4; shadowOffset = CGSize (0 0)
             but.layer.shadowOpacity = 0.1
             but.layer.shadowRadius = 4
             but.layer.shadowOffset = CGSize(width: 0, height: 0)
             but.addTarget(self, action: #selector(didTapSkipButton), for: .touchUpInside)
+            but.tintColor = .white
+            but.frame.size = CGSize(width: 50, height: 50)
+            for view in navigationVC.view.subviews[0].subviews[1].subviews {
+                print("\(view)")
+            }
+            let stack = navigationVC.view.subviews[0].subviews[1] as! UIStackView
+            stack.addArrangedSubview(but)
             navigationVC.delegate = self 
-            //present(navigationVC, animated: true, completion: nil)
+            
             navigationController?.present(navigationVC, animated: true, completion: nil)
         } else {
             print("**Can't start route, not all waypoints have been ordered")
@@ -169,6 +192,7 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
     
     func navigationViewController(_ navigationViewController: NavigationViewController, didArriveAt waypoint: Waypoint) -> Bool {
         arrival = self.storyboard?.instantiateViewController(withIdentifier: "ArrivalViewController") as! ArrivalViewController
+        
         let nextWaypoint = navigationViewController.navigationService.routeProgress.upcomingLeg?.destination
         var nextWaypointCD: CDWaypoint?
         
@@ -177,13 +201,12 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
                 // There is another subroute to follow
                 print("**Starting new subroute")
                 arrivalMode = .StartingNewSubroute
-                let nextWaypointName = directionsRoutes![currentSubroute + 1].routeOptions.waypoints[1].name! // Remember, the first waypoint of the next subroute is the same as the last in it's previous subroute
+                let nextWaypointName = directionsRoutes![currentSubroute + 1].routeOptions.waypoints[1].name! // Remember, the first waypoint of the next subroute is the same as the last in the previous subroute
                 nextWaypointCD = (route.waypoints?.array as! [CDWaypoint]).filter({$0.name == nextWaypointName}).first
             } else {
                 print("**Finished")
                 arrivalMode = .Finished
-                arrival?.removeProceedButton = true 
-                arrival?.removeNextField = true
+                //arrival!.finished = true
             }
         } else {
             print("**Normal")
@@ -191,51 +214,19 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
             nextWaypointCD = (route.waypoints?.array as! [CDWaypoint]).filter({$0.name == nextWaypoint?.name}).first
         }
         
-        // Get the next waypoint directly from the nav controller
-        // If there is no next waypoint, then increment the subroute and start a new route
-        
-        // Return false here - we are handling the advancement manually
-        
-        arrival!.delegate = self
-        arrival!.arrivedName = waypoint.name!
-        arrival!.nextName = nextWaypointCD?.name
-        let type = String(describing: nextWaypointCD?.type)
-        
-        if let image = UIImage(named: "\(String(describing: type))") {
-            arrival!.image = image
+        if nextWaypointCD != nil {
+            arrival?.image = UIImage(named: "\(nextWaypointCD!.type)")
+            arrival?.nextName = nextWaypointCD?.name
+            arrival?.delegate = self
+        } else {
+            arrival?.image = UIImage(named: "done")
+            arrival?.nextName = "Finished!"
+            arrival?.delegate = self
         }
         
         
-//
-//        if currentWaypointIndex >= lastWaypointIndex {
-//            // We've arrived at the last waypoint in this subroute
-//            // Check if there's another subroute
-//            if currentSubroute >= directionsRoutes!.count - 1 {
-//                // We are on the last subroute, and we just finished it - the route is over
-//                // Leave 'nextName' blank/remove the 'next' field altogether
-//                print("**\(navigationVC.navigationService.routeProgress.legIndex) of \(navigationVC.route.legs.count - 1) - Deemed .Finished")
-//                print("**\(directionsRoutes![currentSubroute].routeOptions.waypoints.prefix(upTo: currentWaypointIndex)) -- \(directionsRoutes![currentSubroute].routeOptions.waypoints.suffix(from: currentWaypointIndex))")
-//                arrivalMode = .Finished
-//                arrival!.removeNextField()
-//                arrival!.removeProceedButton()
-//            } else {
-//                // There are more subroutes to follow
-//                // Get the name of the first waypoint of the next subroute
-//                arrival!.nextName = directionsRoutes![currentSubroute + 1].routeOptions.waypoints[0].name!
-//                print("**\(navigationVC.navigationService.routeProgress.legIndex) of \(navigationVC.route.legs.count - 1) - Deemed .StartingNewSubroute")
-//                print("**\(directionsRoutes![currentSubroute].routeOptions.waypoints.prefix(upTo: currentWaypointIndex)) -- \(directionsRoutes![currentSubroute].routeOptions.waypoints.suffix(from: currentWaypointIndex))")
-//                arrivalMode = .StartingNewSubroute
-//            }
-//        } else {
-//            // There are more waypoints in this subroute
-//            // Set nextName to the name of the next waypoint in this subroute
-//            arrivalMode = .Normal
-//            print("**\(navigationVC.navigationService.routeProgress.legIndex) of \(navigationVC.route.legs.count - 1) - Deemed .Normal")
-//            print("**\(directionsRoutes![currentSubroute].routeOptions.waypoints.prefix(upTo: currentWaypointIndex)) -- \(directionsRoutes![currentSubroute].routeOptions.waypoints.suffix(from: currentWaypointIndex))")
-//            arrival!.nextName = directionsRoutes![currentSubroute].routeOptions.waypoints[currentWaypointIndex + 1].name!
-//        }
+        navigationVC.present(arrival!, animated: true, completion: nil)
 
-        navigationViewController.present(arrival!, animated: true, completion: nil)
         return false // Yes, return false
     }
     
@@ -259,6 +250,7 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
         case .Finished:
             print("**This should not be reached, since the proceed button should have been removed")
             arrival?.dismiss(animated: true, completion: nil)
+            didTapEndRoute()
         }
     }
     
@@ -278,6 +270,8 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
     
     func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
         print("**Selected WP: \(String(describing: annotation.title!))")
+        spinner.startAnimating()
+        spinner.isHidden = false
         guard let waypoint = (route.waypoints?.array as! [CDWaypoint]).filter({$0.name == annotation.title}).first else {
             print("**Couldn't find a waypoint that matches the name?")
             return
@@ -287,6 +281,7 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
             //
             guard routes.count > 0 else {
                 print("**No routes?")
+                
                 return
             }
             
@@ -300,7 +295,8 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
             self.directionsRoutes = routes
             
             self.drawRoutes(routes: routes)
-            
+            self.spinner.isHidden = true
+            self.spinner.stopAnimating()
         }
         
 //        mapView.removeAnnotations(mapView.annotations!)
@@ -330,10 +326,16 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
             anno.coordinate = waypoint.coordinate()
             anno.title = waypoint.name
             annos.append(anno)
-            
         }
-        
         mapView.addAnnotations(annos)
+    }
+    
+    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+        let waypoints = route.waypoints!.array as! [CDWaypoint]
+        let type = waypoints.filter {$0.name == annotation.title}.first!.type
+        let image = UIImage(named: "\(type)")
+        let scaled = UIImage(cgImage: image!.cgImage!, scale: 15, orientation: image!.imageOrientation)
+        return MGLAnnotationImage(image: scaled, reuseIdentifier: "\(type)")
     }
     
     func generateRoute(waypoints: [CDWaypoint], completion: @escaping ([Route]) -> ()) {
@@ -356,7 +358,7 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
         print("** Waypoints incl. start: \(waypointsIncludingCurrentPosition.count)")
         var coordinates: [[Waypoint]] = []
         var subroute = 0
-        for (index, waypoint) in waypointsIncludingCurrentPosition.enumerated() {
+        for (_, waypoint) in waypointsIncludingCurrentPosition.enumerated() {
             let coord = Waypoint(coordinate: waypoint.coordinate(), coordinateAccuracy: -1, name: waypoint.name)
             if Type(rawValue: Int(waypoint.type)) == .SPB || Type(rawValue: Int(waypoint.type)) == .Pedestal {
                 coord.allowsArrivingOnOppositeSide = false
@@ -416,13 +418,14 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
     }
     
     func drawRoutes(routes: [Route]) {
-        print("**Drawing route...")
-        
+        print("**Drawing route...")        
         //var routeCoordinates
         var routeCoordinates: [CLLocationCoordinate2D] = []
-        for subroute in routes {
+
+        for (_, subroute) in routes.enumerated() {
             routeCoordinates += subroute.coordinates!
         }
+        
         let polyline = MGLPolylineFeature(coordinates: &routeCoordinates, count: UInt(routeCoordinates.count))
         
         if let source = mapView.style?.source(withIdentifier: "route-source") as? MGLShapeSource {
@@ -433,14 +436,15 @@ class PreviewRouteViewController: UIViewController, MGLMapViewDelegate, URLSessi
             print("**Creating a new source")
             let source = MGLShapeSource(identifier: "route-source", features: [polyline], options: nil)
             let lineStyle = MGLLineStyleLayer(identifier: "route-style", source: source)
-            lineStyle.lineColor = NSExpression(forConstantValue: UIColor.blue)
-            lineStyle.lineWidth = NSExpression(forConstantValue: 4.0)
+            lineStyle.lineColor = NSExpression(forConstantValue: UIColor.systemBlue)
+            lineStyle.lineOpacity = NSExpression(forConstantValue: 0.8)
+            lineStyle.lineWidth = NSExpression(forConstantValue: 10)
+            lineStyle.lineJoin = NSExpression(forConstantValue: MGLLineJoin.round.rawValue)
+            
             mapView.style!.addSource(source)
             mapView.style!.addLayer(lineStyle)
             //'MGLConstantStyleValue' is unavailable: Use +[NSExpression expressionForConstantValue:] instead.
         }
-        
-        
     }
     
 

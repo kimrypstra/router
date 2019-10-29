@@ -25,7 +25,7 @@ Requirements
 import UIKit
 import CoreLocation
 
-class MainMenuViewController: UIViewController, CLLocationManagerDelegate {
+class MainMenuViewController: UITableViewController, CLLocationManagerDelegate {
 
     var locMan: CLLocationManager!
     
@@ -68,10 +68,10 @@ class MainMenuViewController: UIViewController, CLLocationManagerDelegate {
             let IVC = segue.destination as! InputAddressViewController
             IVC.addingForTemporaryRoute = false
             IVC.editingMode = .Add
-        case "recordRoute":
-            print("Going to record route")
-        case "inputRoute":
-            print("Going to input route")
+        case "newRoute":
+            print("Going to new route")
+            let IVC = segue.destination as! NewRouteViewController
+            IVC.mode = .Add
         case "driveRoute":
             print("Going to drive route")
         default:

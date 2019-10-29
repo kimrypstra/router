@@ -12,14 +12,18 @@ protocol WaypointSelectionDelegate {
     func didSelectWaypoint(waypoint: CDWaypoint)
     func didDeselectWaypoint(waypoint: CDWaypoint)
     func returnFromSelection()
+    func isWaypointSelected(waypoint: CDWaypoint) -> Bool
 }
 
 class NewRouteViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, WaypointSelectionDelegate {
     
+    var mode: EditingMode!
+    var editingRoute: CDRoute?
+    
     var selectedWaypoints: [CDWaypoint] = []
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var nameField: UITextField!
-    @IBOutlet weak var keep: UISwitch!
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "routeWaypointCell", for: indexPath)
@@ -27,6 +31,10 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
         cell.detailTextLabel?.text = "\(selectedWaypoints[indexPath.row].lat), \(selectedWaypoints[indexPath.row].long)"
         
         return cell
+    }
+    
+    func isWaypointSelected(waypoint: CDWaypoint) -> Bool {
+        return selectedWaypoints.contains(waypoint)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -38,6 +46,12 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isEditing = true
+        
+        if mode == .Edit {
+            // Populate selectedWaypoints with the waypoints from the selected route
+            selectedWaypoints = editingRoute?.waypoints?.array as! [CDWaypoint]
+            nameField.text = editingRoute?.name!
+        }
     }
     
     func didSelectWaypoint(waypoint: CDWaypoint) {
@@ -56,11 +70,27 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        if nameField.text != nil && selectedWaypoints.count > 0 {
-            let cdMan = CoreDataManager()
-            cdMan.newRouteWithWaypoints(waypoints: selectedWaypoints, name: nameField.text!, keep: keep.isOn)
-        } else {
-            print("Not complete")
+        guard nameField.text != nil && selectedWaypoints.count > 0 else {
+            print("Incomplete")
+            return
+        }
+        var success = true
+        // TODO:- Make cdMan methods return a success bool so we can confirm it worked before dismissing
+        
+        let cdMan = CoreDataManager()
+        if mode! == .Add {
+            cdMan.newRouteWithWaypoints(waypoints: selectedWaypoints, name: nameField.text!, keep: true)
+        } else if mode! == .Edit {
+            guard editingRoute != nil else {
+                print("Editing route is nil")
+                return
+            }
+            cdMan.editRoute(oldName: editingRoute!.name!, newName: nameField.text!, newKeep: true, newWaypoints: selectedWaypoints)
+        }
+        
+        if success {
+            self.navigationController?.popToRootViewController(animated: true)
+            print("Dismissed?")
         }
     }
     
@@ -79,18 +109,22 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
         return selectedWaypoints.count
     }
     
+    /*
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .none
     }
-    
+    */
+    /*
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false 
     }
+    */
     
     // Override to support editing the table view.
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            selectedWaypoints.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -107,13 +141,13 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
 
-    
+    /*
     // Override to support conditional rearranging of the table view.
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the item to be re-orderable.
-        return true
+        return false
     }
-    
+    */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -124,11 +158,20 @@ class NewRouteViewController: UIViewController, UITableViewDelegate, UITableView
             }
             IVC.delegate = self
         case "previewRoute":
-            guard let IVC = segue.destination as? ViewRouteViewController else {
+            guard let IVC = segue.destination as? PreviewRouteViewController else {
                 print("Error segueing")
                 return
             }
-            IVC.waypoints = selectedWaypoints
+            if editingRoute != nil {
+                // We are editing a route
+                IVC.route = editingRoute
+                IVC.shouldAllowDrive = false 
+            } else {
+                // We are viewing a route
+                IVC.route = CoreDataManager().createTemporaryRoute(waypoints: selectedWaypoints, name: nameField.text!, keep: false)
+                IVC.shouldAllowDrive = false 
+            }
+            
         default:
             print("Unknown segue id")
             return

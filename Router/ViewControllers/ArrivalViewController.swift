@@ -14,19 +14,15 @@ protocol ArrivalViewControllerDelegate {
 }
 
 class ArrivalViewController: UIViewController {
-
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var upperStackView: UIStackView!
-    @IBOutlet weak var lowerStackView: UIStackView!
-    @IBOutlet weak var arrivedLabel: UILabel!
     @IBOutlet weak var nextLabel: UILabel!
     var arrivedName: String?
     var nextName: String?
     var delegate: ArrivalViewControllerDelegate!
     var image: UIImage?
-    var removeProceedButton = false
-    var removeNextField = false
+    var finished = false
+    @IBOutlet weak var backgroundView: UIView!
     
     // This VC needs to handle timing - the time from when this view is presented
     // To when it is dismissed
@@ -36,7 +32,8 @@ class ArrivalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        backgroundView.layer.cornerRadius = 10
+        backgroundView.clipsToBounds = true 
         // Do any additional setup after loading the view.
     }
     
@@ -49,42 +46,25 @@ class ArrivalViewController: UIViewController {
         
     }
     
-    
     func setup() {
-        guard arrivedName != nil && nextName != nil else {return}
-        arrivedLabel.text = arrivedName
-        nextLabel.text = nextName
-        imageView.image = image
-        
-        if removeProceedButton {
-            print("Removing proceed button")
-            lowerStackView.removeArrangedSubview(lowerStackView.arrangedSubviews[1])
-        }
-        
-        if removeNextField {
-            print("Removing next field")
-            upperStackView.removeArrangedSubview(upperStackView.arrangedSubviews[3])
-            upperStackView.removeArrangedSubview(upperStackView.arrangedSubviews[2])
+        if finished {
+            nextLabel.text = "Finished!"
+            imageView.image = nil
+        } else {
+            nextLabel.text = nextName
+            imageView.image = image
         }
     }
     
     @IBAction func proceedButton(_ sender: Any) {
-        delegate.didTapProceed()
+        if finished {
+            delegate.didTapEndRoute()
+        } else {
+            delegate.didTapProceed()
+        }
     }
     
     @IBAction func endRouteButton(_ sender: Any) {
         delegate.didTapEndRoute()
     }
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

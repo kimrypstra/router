@@ -35,9 +35,9 @@ class ViewWaypointsTableViewController: UITableViewController {
         let cdMan = CoreDataManager()
         let result = cdMan.loadAllWaypoints()
 
-        spbs = result.filter({$0.type == 0}) + result.filter({$0.type == 1})
-        premeses = result.filter({$0.type == 2})
-        waypoints = result.filter({$0.type == 3})
+        spbs = result.filter({$0.type == 0}) + result.filter({$0.type == 1}) + result.filter({$0.type == 2})
+        premeses = result.filter({$0.type == 3})
+        waypoints = result.filter({$0.type == 4})
         
         spbs.sort{$0.name! < $1.name!}
         premeses.sort{$0.name! < $1.name!}

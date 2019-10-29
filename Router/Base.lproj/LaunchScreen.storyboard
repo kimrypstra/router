@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,15 +12,60 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="EKr-4g-LJg">
+                                <rect key="frame" x="132" y="418.5" width="150" height="131.5"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="4bF-Js-4Dk"/>
+                                    <constraint firstAttribute="width" secondItem="EKr-4g-LJg" secondAttribute="height" multiplier="11:10" id="lcd-Ee-Ibl"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="Zhz-lf-r8R">
+                                <rect key="frame" x="157" y="728" width="100" height="168"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud.moon.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="uGb-bz-rc8">
+                                <rect key="frame" x="0.0" y="331" width="240" height="128"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="CpK-MW-vfD"/>
+                                    <constraint firstAttribute="height" constant="131.5" id="f3Z-0U-cc0"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cloud" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="RkO-EX-dB8">
+                                <rect key="frame" x="178" y="337.5" width="240" height="128"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="133" id="N2o-R6-4e8"/>
+                                    <constraint firstAttribute="width" constant="240" id="YjP-29-3Xm"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="EKr-4g-LJg" firstAttribute="top" secondItem="uGb-bz-rc8" secondAttribute="bottom" constant="-46" id="FpF-Yy-0Qb"/>
+                            <constraint firstItem="Zhz-lf-r8R" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="IDW-Cz-NiQ"/>
+                            <constraint firstItem="Zhz-lf-r8R" firstAttribute="top" secondItem="EKr-4g-LJg" secondAttribute="bottom" constant="176" id="L4z-yQ-QqI"/>
+                            <constraint firstItem="EKr-4g-LJg" firstAttribute="top" secondItem="RkO-EX-dB8" secondAttribute="bottom" constant="-52.5" id="VUf-57-sDS"/>
+                            <constraint firstItem="RkO-EX-dB8" firstAttribute="leading" secondItem="EKr-4g-LJg" secondAttribute="trailing" constant="-104" id="gfJ-sk-94W"/>
+                            <constraint firstItem="EKr-4g-LJg" firstAttribute="leading" secondItem="uGb-bz-rc8" secondAttribute="trailing" constant="-108" id="jmr-p7-Lop"/>
+                            <constraint firstItem="EKr-4g-LJg" firstAttribute="centerX" secondItem="Zhz-lf-r8R" secondAttribute="centerX" id="laq-ZL-4xR"/>
+                            <constraint firstItem="Zhz-lf-r8R" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="34" id="x2c-2b-IG0"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Image" width="100" height="168"/>
+        <image name="cloud" catalog="system" width="64" height="42"/>
+        <image name="cloud.fill" catalog="system" width="64" height="42"/>
+        <image name="cloud.moon.fill" catalog="system" width="64" height="42"/>
+    </resources>
 </document>

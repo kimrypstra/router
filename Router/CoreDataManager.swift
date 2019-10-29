@@ -11,6 +11,19 @@ import CoreData
 import UIKit
 
 class CoreDataManager {
+    
+    func checkIfNameAvailable(name: String) -> Bool {
+        var flag = true
+        if let routes = loadAllRoutes() {
+            for route in routes {
+                if route.name == name {
+                    flag = false
+                }
+            }
+        }
+        return flag
+    }
+    
     func loadRoute(name: String) -> CDRoute? {
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
@@ -26,12 +39,12 @@ class CoreDataManager {
                     if data.value(forKey: "name") as! String == name {
                         return data as! CDRoute
                     } else {
-                        return nil
+                        //return nil
+                        // If this is uncommented it will just return after a single cycle if it's not the first one returned
                     }
                 }
             } else {
-                return createNewRoute(name: name)
-                
+                return createNewRoute(name: name).0
             }
             
         } catch {
@@ -134,7 +147,11 @@ class CoreDataManager {
         return nil
     }
     
-    private func createNewRoute(name: String) -> CDRoute? {
+    private func createNewRoute(name: String) -> (CDRoute?, String?) {
+        if checkIfNameAvailable(name: name) == false {
+            return (nil, "Name taken")
+        }
+        
         
         let appDel = UIApplication.shared.delegate as! AppDelegate
         let context = appDel.persistentContainer.viewContext
@@ -143,13 +160,13 @@ class CoreDataManager {
         let newRoute = NSManagedObject(entity: entity!, insertInto: context)
         newRoute.setValue(name, forKey: "name")
         newRoute.setValue(Date(), forKey: "date")
-        
+    
         do {
             try context.save()
-            return loadRoute(name: name)
-        } catch {
+            return (loadRoute(name: name), nil)
+        } catch let error {
             print("Failed")
-            return nil
+            return (nil, error.localizedDescription)
         }
     }
     
@@ -161,6 +178,7 @@ class CoreDataManager {
         let newRoute: CDRoute = NSManagedObject(entity: routeEntity!, insertInto: context) as! CDRoute
         newRoute.setValue(name, forKey: "name")
         newRoute.setValue(keep, forKey: "keep")
+        newRoute.setValue(Date(), forKey: "date")
         //newRoute.addToWaypoints(NSSet(array: waypoints))
         newRoute.addToWaypoints(NSOrderedSet(array: waypoints))
         do {
@@ -216,7 +234,7 @@ class CoreDataManager {
         if route == nil {
             // Create a new route
             let newRoute = createNewRoute(name: name)
-            route = newRoute
+            route = newRoute.0
         }
 
         let entity = NSEntityDescription.entity(forEntityName: "CDWaypoint", in: context)
@@ -227,7 +245,8 @@ class CoreDataManager {
         newWaypoint.setValue(position, forKey: "position")
 
         route!.addToWaypoints(newWaypoint as! CDWaypoint)
-
+        route?.setValue(Date(), forKey: "date")
+        
         do {
             try context.save()
         } catch {
@@ -363,4 +382,59 @@ class CoreDataManager {
         }
     }
     
+    func editRoute(oldName: String, newName: String, newKeep: Bool, newWaypoints: [CDWaypoint]) {
+        let appDel = UIApplication.shared.delegate as! AppDelegate
+        let context = appDel.persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDRoute")
+        request.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(request)
+            if result.count > 0 {
+                for data in result as! [CDRoute] {
+                    if data.value(forKey: "name") as! String == oldName {
+                        // We've found the object to be edited
+                        data.setValue(newName, forKey: "name")
+                        data.setValue(newKeep, forKey: "keep")
+                        data.setValue(Date(), forKey: "date")
+                        //newRoute.addToWaypoints(NSSet(array: waypoints))
+                        data.removeFromWaypoints(data.waypoints!)
+                        data.addToWaypoints(NSOrderedSet(array: newWaypoints))
+                        do {
+                            try context.save()
+                        } catch let error {
+                            print("Error saving SPB: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+        } catch let error {
+            print("Error: \(error)")
+        }
+    }
+    
+    func deleteRoute(name: String) -> Bool {
+        print("Attempting to delete route: \(name)")
+        if checkIfNameAvailable(name: name) {
+            // If the name is available, it has not been used therefore cannot be deleted
+            print("Error: Name not in use")
+            return false
+        }
+        let appDel = UIApplication.shared.delegate as! AppDelegate
+        let context = appDel.persistentContainer.viewContext
+        if let route = loadRoute(name: name) {
+            context.delete(route)
+            do {
+                try context.save()
+                print("Saved deletion")
+            } catch let error {
+                print("Error saving deletion: \(error.localizedDescription)")
+                return false
+            }
+            
+        } else {
+            print("No route of that name found?")
+        }
+        return true
+    }
 }

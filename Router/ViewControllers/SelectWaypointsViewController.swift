@@ -16,6 +16,7 @@ class SelectWaypointsViewController: UITableViewController {
     var waypoints: [CDWaypoint]!
     @IBOutlet weak var seg: UISegmentedControl!
     
+    var count = 0
     var selectedWaypoints: [CDWaypoint]? {
         get {
             switch seg.selectedSegmentIndex {
@@ -26,6 +27,7 @@ class SelectWaypointsViewController: UITableViewController {
             }
         }
     }
+    
     var indexTitles = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
     
     override func viewDidLoad() {
@@ -113,17 +115,25 @@ class SelectWaypointsViewController: UITableViewController {
         
         cell.textLabel?.text = waypointForCell.name
         cell.detailTextLabel?.text = "\(waypointForCell.lat), \(waypointForCell.long)"
-        
+        if delegate.isWaypointSelected(waypoint: waypointForCell) {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         return cell
     }
     
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // It needs to be kind of wacky like this because each starting letter is a different section in the tableView
         var waypoint: CDWaypoint!
         let firstLetter = Character(indexTitles[indexPath.section].lowercased())
         let filtered = selectedWaypoints!.filter({($0.name?.lowercased().first) == firstLetter})
         waypoint = filtered[indexPath.row]
         delegate.didSelectWaypoint(waypoint: waypoint)
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        count += 1
+        self.title = "\(count) Selected"
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -132,6 +142,9 @@ class SelectWaypointsViewController: UITableViewController {
         let filtered = selectedWaypoints!.filter({($0.name?.lowercased().first) == firstLetter})
         waypoint = filtered[indexPath.row]
         delegate.didDeselectWaypoint(waypoint: waypoint)
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        count -= 1
+        self.title = "\(count) Selected"
     }
     
     

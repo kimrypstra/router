@@ -24,9 +24,6 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
 
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var addressLine: UITextField!
-    @IBOutlet weak var suburb: UITextField!
-    @IBOutlet weak var postcode: UITextField!
-    @IBOutlet weak var state: UITextField!
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var spbSeg: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
@@ -45,9 +42,6 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
         recog = UILongPressGestureRecognizer(target: self, action: #selector(didLongPressOnMap(_:)))
         mapView.addGestureRecognizer(recog)
         addressLine.delegate = self
-        suburb.delegate = self
-        postcode.delegate = self
-        state.delegate = self
         nameField.delegate = self
         mapView.delegate = self
         latitudeField.delegate = self
@@ -66,8 +60,6 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
             spbSeg.selectedSegmentIndex = Int(editingWaypoint!.type)
             nameField.text = editingWaypoint!.name
             addressLine.text = editingWaypoint!.address
-            suburb.text = editingWaypoint!.suburb
-            postcode.text = editingWaypoint!.postcode
             latitudeField.text = "\(editingWaypoint!.lat)"
             longitudeField.text = "\(editingWaypoint!.long)"
             let camera = MKMapCamera(lookingAtCenter: CLLocationCoordinate2D(latitude: editingWaypoint!.lat, longitude: editingWaypoint!.long), fromDistance: 300, pitch: 0, heading: 0)
@@ -78,7 +70,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
     }
     
     func resignAllFirstResponders() {
-        let fields: [UITextField] = [self.addressLine, self.suburb, self.postcode, self.state, self.nameField, self.latitudeField, self.longitudeField]
+        let fields: [UITextField] = [self.addressLine, self.nameField, self.latitudeField, self.longitudeField]
         for field in fields {
             field.resignFirstResponder()
         }
@@ -86,7 +78,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if editingMode == .Add {
-            let addressFields: [UITextField] = [addressLine, suburb, postcode, state]
+            let addressFields: [UITextField] = [addressLine]
             let coordinateFields: [UITextField] = [latitudeField, longitudeField]
             if addressFields.contains(textField) {
                 addMode = .Address
@@ -117,7 +109,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
         
         switch addMode {
             case .Address:
-                let address = "\(addressLine.text!) \(suburb.text!) \(state.text!) \(postcode.text!)"
+                let address = "\(addressLine.text!)"
                 let geocoder = CLGeocoder()
                 geocoder.geocodeAddressString(address) { (placemarks, error) in
                     if error == nil {
@@ -170,10 +162,9 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
     }
     
     func resetTextFields() {
-        let fields: [UITextField] = [self.addressLine, self.suburb, self.postcode, self.state, self.nameField, self.latitudeField, self.longitudeField]
+        let fields: [UITextField] = [self.addressLine, self.nameField, self.latitudeField, self.longitudeField]
         for field in fields {
             field.text = ""
-            self.state.text = "WA"
         }
     }
     
@@ -214,7 +205,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
             
             switch addMode {
             case .Address:
-                let address = "\(addressLine.text!) \(suburb.text!) \(state.text!) \(postcode.text!)"
+                let address = "\(addressLine.text!)"
                 let geocoder = CLGeocoder()
                 geocoder.geocodeAddressString(address) { (placemarks, error) in
                     if error == nil {
@@ -233,7 +224,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
                                 })
                             } else {
                                 // Generate a new CDWaypoint object but don't save it
-                                cdMan.createTemporaryWaypoint(lat: coord.latitude, long: coord.longitude, name: "\(self.temporaryWaypoints.count)", type: Type(rawValue: self.spbSeg.selectedSegmentIndex)!, keep: true, completion: { (waypoint) in
+                                cdMan.createTemporaryWaypoint(lat: coord.latitude, long: coord.longitude, name: "\(self.addressLine.text!)", type: Type(rawValue: self.spbSeg.selectedSegmentIndex)!, keep: true, completion: { (waypoint) in
                                     self.temporaryWaypoints.append(waypoint)
                                     self.resetTextFields()
                                     // Pass it into an array
@@ -241,6 +232,8 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
                                 })
                             }
                         }
+                    } else {
+                        print("Error geocoding: \(error!)")
                     }
                 }
             case .Coordinates:
@@ -260,7 +253,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
                     })
                 } else {
                     // Generate a new CDWaypoint object but don't save it
-                    cdMan.createTemporaryWaypoint(lat: Double(latitudeField.text!)!, long: Double(longitudeField.text!)!, name: "\(self.temporaryWaypoints.count)", type: Type(rawValue: self.spbSeg.selectedSegmentIndex)!, keep: true, completion: { (waypoint) in
+                    cdMan.createTemporaryWaypoint(lat: Double(latitudeField.text!)!, long: Double(longitudeField.text!)!, name: "\(self.latitudeField.text!), \(self.longitudeField.text!)", type: Type(rawValue: self.spbSeg.selectedSegmentIndex)!, keep: true, completion: { (waypoint) in
                         self.temporaryWaypoints.append(waypoint)
                         self.resetTextFields()
                         // Pass it into an array
@@ -287,7 +280,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
                     })
                 } else {
                     // Generate a new CDWaypoint object but don't save it
-                    cdMan.createTemporaryWaypoint(lat: anno.coordinate.latitude, long: anno.coordinate.longitude, name: "\(self.temporaryWaypoints.count)", type: Type(rawValue: self.spbSeg.selectedSegmentIndex)!, keep: true, completion: { (waypoint) in
+                    cdMan.createTemporaryWaypoint(lat: anno.coordinate.latitude, long: anno.coordinate.longitude, name: "\(anno.coordinate.latitude), \(anno.coordinate.longitude)", type: Type(rawValue: self.spbSeg.selectedSegmentIndex)!, keep: true, completion: { (waypoint) in
                         self.temporaryWaypoints.append(waypoint)
                         self.resetTextFields()
                         // Pass it into an array
@@ -296,7 +289,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
                 }
             }
         } else if editingMode == .Edit {
-            cdMan.editWaypoint(id: editingWaypoint!.objectID, active: nil, address: addressLine.text, catchment: nil, clearanceTime: nil, colour: nil, comment: nil, finalDuty: nil, finalDutyPoint: nil, flag: nil, hub: nil, keep: nil, keyNumber: nil, labelDate: nil, labelInner: nil, labelOuter: nil, lat: Double(latitudeField.text!), long: Double(longitudeField.text!), name: nameField.text, nat_id: nil, postcode: postcode.text, state: state.text, suburb: suburb.text, sundayClearance: nil, sundayClearanceTime: nil, type: Int16(spbSeg!.selectedSegmentIndex), wa_id: nil, wcc: nil) { (success) in
+            cdMan.editWaypoint(id: editingWaypoint!.objectID, active: nil, address: addressLine.text, catchment: nil, clearanceTime: nil, colour: nil, comment: nil, finalDuty: nil, finalDutyPoint: nil, flag: nil, hub: nil, keep: nil, keyNumber: nil, labelDate: nil, labelInner: nil, labelOuter: nil, lat: Double(latitudeField.text!), long: Double(longitudeField.text!), name: nameField.text, nat_id: nil, postcode: "", state: "", suburb: "", sundayClearance: nil, sundayClearanceTime: nil, type: Int16(spbSeg!.selectedSegmentIndex), wa_id: nil, wcc: nil) { (success) in
                 if success {
                     print("Successfully saved edit")
                     self.navigationController?.popViewController(animated: true)
@@ -354,9 +347,7 @@ class InputAddressViewController: UIViewController, MKMapViewDelegate, UITextFie
                 //self.nearLabel.text = location.makeAddressString()
                 // Address, Suburb, Postcode, State
                 self.addressLine.text = location.thoroughfare
-                self.suburb.text = location.locality
-                self.postcode.text = location.postalCode
-                self.state.text = location.administrativeArea
+
                 self.latitudeField.text = "\(location.location!.coordinate.latitude)"
                 self.longitudeField.text = "\(location.location!.coordinate.longitude)"
             }
